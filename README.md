@@ -2,20 +2,9 @@
 
 HTTP/1.1 web server built from scratch in C++ — raw POSIX sockets, custom thread pool, mutex + condition variable synchronization. No frameworks.
 
-## Benchmark
-`wrk -t4 -c100 -d10s http://localhost:8080`
-```
-Requests/sec:  5,503
-Avg latency:   1.77ms
-Transferred:   88.32MB in 10s
-```
+Benchmarked at **5,500+ requests/sec** under 100 concurrent connections with **1.77ms average latency**.
 
-## Architecture
-![Architecture](architecture.png)
-
-- **Listener** — TCP socket, binds to port 8080, blocks on `accept()`, hands client fds to thread pool
-- **Thread Pool** — N worker threads sleeping on a condition variable, wake on new connections, mutex-protected queue
-- **Request Handler** — parses HTTP request line, serves files from `static/`, returns 404 if not found
+**[Full writeup, architecture, and challenges → tonykariuki.com/projects/webserver](https://tonykariuki.com/markdown/projects/webserver)**
 
 ## Build & Run
 ```bash
